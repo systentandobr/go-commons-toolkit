@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -55,19 +56,19 @@ func RemoveSpecialChars(s string) string {
 func Slugify(s string) string {
 	// Converte para minúsculas
 	s = strings.ToLower(s)
-	
+
 	// Remove caracteres especiais
 	s = RemoveSpecialChars(s)
-	
+
 	// Substitui espaços por hífens
 	s = regexp.MustCompile(`\s+`).ReplaceAllString(s, "-")
-	
+
 	// Remove hífens consecutivos
 	s = regexp.MustCompile(`-+`).ReplaceAllString(s, "-")
-	
+
 	// Remove hífens no início e no fim
 	s = strings.Trim(s, "-")
-	
+
 	return s
 }
 
@@ -78,7 +79,7 @@ func GenerateRandomString(length int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	return base64.URLEncoding.EncodeToString(b)[:length], nil
 }
 
@@ -87,19 +88,19 @@ func MaskEmail(email string) string {
 	if IsEmpty(email) {
 		return ""
 	}
-	
+
 	parts := strings.Split(email, "@")
 	if len(parts) != 2 {
 		return email
 	}
-	
+
 	username := parts[0]
 	domain := parts[1]
-	
+
 	if len(username) <= 2 {
 		return email
 	}
-	
+
 	maskedUsername := username[:2] + strings.Repeat("*", len(username)-2)
 	return maskedUsername + "@" + domain
 }
@@ -109,17 +110,17 @@ func MaskPhone(phone string) string {
 	if IsEmpty(phone) {
 		return ""
 	}
-	
+
 	// Remove caracteres não numéricos
 	phone = regexp.MustCompile(`\D`).ReplaceAllString(phone, "")
-	
+
 	if len(phone) <= 4 {
 		return phone
 	}
-	
+
 	visibleDigits := 4
 	maskedDigits := len(phone) - visibleDigits
-	
+
 	return strings.Repeat("*", maskedDigits) + phone[maskedDigits:]
 }
 
@@ -136,7 +137,7 @@ func ContainsAny(s string, substrings ...string) bool {
 // ToSnakeCase converte uma string em snake_case
 func ToSnakeCase(s string) string {
 	var result strings.Builder
-	
+
 	for i, r := range s {
 		if unicode.IsUpper(r) {
 			if i > 0 {
@@ -147,7 +148,7 @@ func ToSnakeCase(s string) string {
 			result.WriteRune(r)
 		}
 	}
-	
+
 	return result.String()
 }
 
@@ -156,10 +157,10 @@ func ToCamelCase(s string) string {
 	// Substitui hífens e sublinhados por espaços
 	s = strings.ReplaceAll(s, "-", " ")
 	s = strings.ReplaceAll(s, "_", " ")
-	
+
 	// Divide a string em palavras
 	words := strings.Fields(s)
-	
+
 	// Primeira palavra em minúsculas, demais com inicial maiúscula
 	for i, word := range words {
 		if i == 0 {
@@ -168,7 +169,7 @@ func ToCamelCase(s string) string {
 			words[i] = strings.Title(strings.ToLower(word))
 		}
 	}
-	
+
 	// Junta as palavras sem espaço
 	return strings.Join(words, "")
 }
@@ -178,15 +179,15 @@ func ToPascalCase(s string) string {
 	// Substitui hífens e sublinhados por espaços
 	s = strings.ReplaceAll(s, "-", " ")
 	s = strings.ReplaceAll(s, "_", " ")
-	
+
 	// Divide a string em palavras
 	words := strings.Fields(s)
-	
+
 	// Todas as palavras com inicial maiúscula
 	for i, word := range words {
 		words[i] = strings.Title(strings.ToLower(word))
 	}
-	
+
 	// Junta as palavras sem espaço
 	return strings.Join(words, "")
 }
@@ -194,4 +195,19 @@ func ToPascalCase(s string) string {
 // FormatCurrency formata um número como moeda
 func FormatCurrency(value float64, currencySymbol string) string {
 	return fmt.Sprintf("%s %.2f", currencySymbol, value)
+}
+
+// FormatNumber formata um número com separadores de milhar e n casas decimais
+func FormatNumber(value float64, decimals int) string {
+	// Implementação simplificada, deve ser adaptada para requisitos específicos
+	return fmt.Sprintf("%."+strconv.Itoa(decimals)+"f", value)
+}
+
+// FormatPercentage formata um valor para string no formato de percentual
+func FormatPercentage(value float64, decimals int) string {
+	if decimals < 0 {
+		decimals = 0
+	}
+
+	return fmt.Sprintf("%."+strconv.Itoa(decimals)+"f%%", value)
 }

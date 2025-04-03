@@ -1,93 +1,221 @@
+// pkg/common/errors/errors.go
 package utils
 
 import (
+	"errors"
 	"fmt"
-	"runtime"
+)
+
+// ErrorType representa os diferentes tipos de erros
+type ErrorType string
+
+const (
+	// Tipos de erro
+	TypeValidation   ErrorType = "VALIDATION"   // Erro de validação
+	TypeNotFound     ErrorType = "NOT_FOUND"    // Recurso não encontrado
+	TypeDuplicated   ErrorType = "DUPLICATED"   // Recurso duplicado
+	TypeUnauthorized ErrorType = "UNAUTHORIZED" // Acesso não autorizado
+	TypeForbidden    ErrorType = "FORBIDDEN"    // Acesso proibido
+	TypeInternal     ErrorType = "INTERNAL"     // Erro interno do servidor
+	TypeExternal     ErrorType = "EXTERNAL"     // Erro de serviço externo
+	TypeTimeout      ErrorType = "TIMEOUT"      // Erro de timeout
+	TypeBadGateway   ErrorType = "BAD_GATEWAY"  // Erro de gateway
+	TypeUnavailable  ErrorType = "UNAVAILABLE"  // Serviço indisponível
 )
 
 // AppError representa um erro da aplicação
 type AppError struct {
-	Code      string
-	Message   string
-	Details   interface{}
-	Cause     error
-	StackInfo string
-}
-
-// NewAppError cria um novo erro da aplicação
-func NewAppError(code, message string, details interface{}, cause error) *AppError {
-	_, file, line, ok := runtime.Caller(1)
-	stackInfo := "unknown"
-	if ok {
-		stackInfo = fmt.Sprintf("%s:%d", file, line)
-	}
-
-	return &AppError{
-		Code:      code,
-		Message:   message,
-		Details:   details,
-		Cause:     cause,
-		StackInfo: stackInfo,
-	}
+	Type       ErrorType
+	Message    string
+	Details    map[string]interface{}
+	StatusCode int
+	OrigErr    error
 }
 
 // Error implementa a interface error
 func (e *AppError) Error() string {
-	if e.Cause != nil {
-		return fmt.Sprintf("[%s] %s: %v (at %s)", e.Code, e.Message, e.Cause, e.StackInfo)
+	if e.OrigErr != nil {
+		return fmt.Sprintf("%s: %s [%s]", e.Type, e.Message, e.OrigErr.Error())
 	}
-	return fmt.Sprintf("[%s] %s (at %s)", e.Code, e.Message, e.StackInfo)
+	return fmt.Sprintf("%s: %s", e.Type, e.Message)
 }
 
-// Unwrap implementa a interface para unwrap de erros
+// Unwrap implementa a interface de unwrapping
 func (e *AppError) Unwrap() error {
-	return e.Cause
+	return e.OrigErr
 }
 
-// Common error codes
-const (
-	ErrCodeValidation   = "VALIDATION_ERROR"
-	ErrCodeNotFound     = "NOT_FOUND"
-	ErrCodeUnauthorized = "UNAUTHORIZED"
-	ErrCodeForbidden    = "FORBIDDEN"
-	ErrCodeInternal     = "INTERNAL_ERROR"
-	ErrCodeDatabase     = "DATABASE_ERROR"
-	ErrCodeExternal     = "EXTERNAL_SERVICE_ERROR"
-)
-
-// Wrapper functions for common error types
-
-// ValidationError cria um novo erro de validação
-func ValidationError(message string, details interface{}, cause error) *AppError {
-	return NewAppError(ErrCodeValidation, message, details, cause)
+// Is implementa a interface de comparação
+func (e *AppError) Is(target error) bool {
+	t, ok := target.(*AppError)
+	if !ok {
+		return false
+	}
+	return e.Type == t.Type
 }
 
-// NotFoundError cria um novo erro de recurso não encontrado
-func NotFoundError(message string, cause error) *AppError {
-	return NewAppError(ErrCodeNotFound, message, nil, cause)
+// WithDetails adiciona detalhes ao erro
+func (e *AppError) WithDetails(details map[string]interface{}) *AppError {
+	if e.Details == nil {
+		e.Details = make(map[string]interface{})
+	}
+	for k, v := range details {
+		e.Details[k] = v
+	}
+	return e
 }
 
-// UnauthorizedError cria um novo erro de não autorizado
-func UnauthorizedError(message string, cause error) *AppError {
-	return NewAppError(ErrCodeUnauthorized, message, nil, cause)
+// Funções para criar erros específicos
+
+// NewValidationError cria um erro de validação
+func NewValidationError(message string, details map[string]interface{}, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeValidation,
+		Message:    message,
+		Details:    details,
+		StatusCode: 400,
+		OrigErr:    origErr,
+	}
 }
 
-// ForbiddenError cria um novo erro de acesso proibido
-func ForbiddenError(message string, cause error) *AppError {
-	return NewAppError(ErrCodeForbidden, message, nil, cause)
+// NewNotFoundError cria um erro de recurso não encontrado
+func NewNotFoundError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeNotFound,
+		Message:    message,
+		StatusCode: 404,
+		OrigErr:    origErr,
+	}
 }
 
-// InternalError cria um novo erro interno
-func InternalError(message string, cause error) *AppError {
-	return NewAppError(ErrCodeInternal, message, nil, cause)
+// NewDuplicatedError cria um erro de recurso duplicado
+func NewDuplicatedError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeDuplicated,
+		Message:    message,
+		StatusCode: 409,
+		OrigErr:    origErr,
+	}
 }
 
-// DatabaseError cria um novo erro de banco de dados
-func DatabaseError(message string, cause error) *AppError {
-	return NewAppError(ErrCodeDatabase, message, nil, cause)
+// NewUnauthorizedError cria um erro de acesso não autorizado
+func NewUnauthorizedError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeUnauthorized,
+		Message:    message,
+		StatusCode: 401,
+		OrigErr:    origErr,
+	}
 }
 
-// ExternalServiceError cria um novo erro de serviço externo
-func ExternalServiceError(message string, cause error) *AppError {
-	return NewAppError(ErrCodeExternal, message, nil, cause)
+// NewForbiddenError cria um erro de acesso proibido
+func NewForbiddenError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeForbidden,
+		Message:    message,
+		StatusCode: 403,
+		OrigErr:    origErr,
+	}
+}
+
+// NewInternalError cria um erro interno do servidor
+func NewInternalError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeInternal,
+		Message:    message,
+		StatusCode: 500,
+		OrigErr:    origErr,
+	}
+}
+
+// NewExternalError cria um erro de serviço externo
+func NewExternalError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeExternal,
+		Message:    message,
+		StatusCode: 502,
+		OrigErr:    origErr,
+	}
+}
+
+// NewTimeoutError cria um erro de timeout
+func NewTimeoutError(message string, origErr error) *AppError {
+	return &AppError{
+		Type:       TypeTimeout,
+		Message:    message,
+		StatusCode: 504,
+		OrigErr:    origErr,
+	}
+}
+
+// IsValidationError verifica se o erro é do tipo validação
+func IsValidationError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeValidation
+	}
+	return false
+}
+
+// IsNotFoundError verifica se o erro é do tipo não encontrado
+func IsNotFoundError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeNotFound
+	}
+	return false
+}
+
+// IsDuplicatedError verifica se o erro é do tipo duplicado
+func IsDuplicatedError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeDuplicated
+	}
+	return false
+}
+
+// IsUnauthorizedError verifica se o erro é do tipo não autorizado
+func IsUnauthorizedError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeUnauthorized
+	}
+	return false
+}
+
+// IsForbiddenError verifica se o erro é do tipo proibido
+func IsForbiddenError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeForbidden
+	}
+	return false
+}
+
+// IsInternalError verifica se o erro é do tipo interno
+func IsInternalError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeInternal
+	}
+	return false
+}
+
+// IsExternalError verifica se o erro é do tipo externo
+func IsExternalError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeExternal
+	}
+	return false
+}
+
+// IsTimeoutError verifica se o erro é do tipo timeout
+func IsTimeoutError(err error) bool {
+	var appErr *AppError
+	if errors.As(err, &appErr) {
+		return appErr.Type == TypeTimeout
+	}
+	return false
 }

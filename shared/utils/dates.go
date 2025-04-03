@@ -6,16 +6,16 @@ import (
 
 // Common date formats
 const (
-	DateFormatISO8601      = "2006-01-02T15:04:05Z07:00"
-	DateFormatSimple       = "2006-01-02"
-	DateFormatWithTime     = "2006-01-02 15:04:05"
-	DateFormatBR           = "02/01/2006"
-	DateFormatBRWithTime   = "02/01/2006 15:04:05"
-	DateFormatMonth        = "January 2006"
-	DateFormatMonthShort   = "Jan 2006"
-	DateFormatDayMonth     = "2 January"
+	DateFormatISO8601       = "2006-01-02T15:04:05Z07:00"
+	DateFormatSimple        = "2006-01-02"
+	DateFormatWithTime      = "2006-01-02 15:04:05"
+	DateFormatBR            = "02/01/2006"
+	DateFormatBRWithTime    = "02/01/2006 15:04:05"
+	DateFormatMonth         = "January 2006"
+	DateFormatMonthShort    = "Jan 2006"
+	DateFormatDayMonth      = "2 January"
 	DateFormatDayMonthShort = "2 Jan"
-	DateFormatYear         = "2006"
+	DateFormatYear          = "2006"
 )
 
 // StartOfDay retorna a data no início do dia
@@ -86,8 +86,8 @@ func NewDateRange(start, end time.Time) DateRange {
 
 // Contains verifica se uma data está dentro do intervalo
 func (dr DateRange) Contains(date time.Time) bool {
-	return (date.Equal(dr.Start) || date.After(dr.Start)) && 
-	       (date.Equal(dr.End) || date.Before(dr.End))
+	return (date.Equal(dr.Start) || date.After(dr.Start)) &&
+		(date.Equal(dr.End) || date.Before(dr.End))
 }
 
 // Duration retorna a duração do intervalo
@@ -119,4 +119,16 @@ func LastNYears(n int) DateRange {
 	end := time.Now()
 	start := end.AddDate(-n, 0, 0)
 	return NewDateRange(start, end)
+}
+
+// new date.go
+
+// FormatDateTime formata uma data e hora para string no formato padrão
+func FormatDateTime(date time.Time) string {
+	return date.Format("2006-01-02 15:04:05")
+}
+
+// ParseDateTime analisa uma string de data e hora no formato padrão
+func ParseDateTime(date string) (time.Time, error) {
+	return time.Parse("2006-01-02 15:04:05", date)
 }

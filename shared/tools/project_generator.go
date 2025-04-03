@@ -10,14 +10,14 @@ import (
 
 // SchemaGenerator gera arquivos de esquema para diferentes componentes do sistema
 type SchemaGenerator struct {
-	BaseDir string
+	BaseDir   string
 	Templates map[string]string
 }
 
 // NewSchemaGenerator cria um novo gerador de esquemas
 func NewSchemaGenerator(baseDir string) *SchemaGenerator {
 	return &SchemaGenerator{
-		BaseDir: baseDir,
+		BaseDir:   baseDir,
 		Templates: defaultTemplates(),
 	}
 }
@@ -744,16 +744,16 @@ type {{ .EntityName }}Repository interface {
 
 // ProjectConfig representa a configuração para geração de um projeto
 type ProjectConfig struct {
-	ProjectName     string
-	Description     string
-	ModulePath      string
-	GoVersion       string
-	Port            int
-	RepositoryURL   string
-	License         string
-	EntityName      string
+	ProjectName       string
+	Description       string
+	ModulePath        string
+	GoVersion         string
+	Port              int
+	RepositoryURL     string
+	License           string
+	EntityName        string
 	EntityDescription string
-	DomainName      string
+	DomainName        string
 }
 
 // GenerateProject gera a estrutura básica de um projeto
