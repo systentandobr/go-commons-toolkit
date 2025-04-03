@@ -626,46 +626,46 @@ CMD ["./app"]
 ## Configuração
 
 1. Clone o repositório:
-   \`\`\`sh
+   ` + "```sh" + `
    git clone {{ .RepositoryURL }}
    cd {{ .ProjectName }}
-   \`\`\`
+   ` + "```" + `
 
 2. Copie o arquivo de configuração:
-   \`\`\`sh
+   ` + "```sh" + `
    cp .env.example .env
-   \`\`\`
+   ` + "```" + `
 
-3. Edite o arquivo \`.env\` conforme necessário.
+3. Edite o arquivo ` + "`.env`" + ` conforme necessário.
 
 ## Compilação
 
-\`\`\`sh
+` + "```sh" + `
 make build
-\`\`\`
+` + "```" + `
 
 ## Execução
 
-\`\`\`sh
+` + "```sh" + `
 make run
-\`\`\`
+` + "```" + `
 
 ## Testes
 
-\`\`\`sh
+` + "```sh" + `
 make test
-\`\`\`
+` + "```" + `
 
 ## Docker
 
-\`\`\`sh
+` + "```sh" + `
 make docker-build
 docker run -p {{ .Port }}:{{ .Port }} {{ .ProjectName }}:latest
-\`\`\`
+` + "```" + `
 
 ## Estrutura do Projeto
 
-\`\`\`
+` + "```" + `
 {{ .ProjectName }}/
 ├── cmd/{{ .ProjectName }}/     # Ponto de entrada da aplicação
 ├── config/                     # Configurações da aplicação
@@ -675,7 +675,7 @@ docker run -p {{ .Port }}:{{ .Port }} {{ .ProjectName }}:latest
 │   ├── infrastructure/         # Adaptadores de infraestrutura
 ├── pkg/                        # Código público reutilizável
 └── test/                       # Testes integrados
-\`\`\`
+` + "```" + `
 
 ## Licença
 

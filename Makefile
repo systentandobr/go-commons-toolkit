@@ -8,10 +8,11 @@ TEST_FLAGS=-v -race -coverprofile=coverage.out
 LINT_FLAGS=--enable=misspell,gosec,govet,staticcheck,unused,gocritic --deadline=5m
 
 # Comando padrão
-all: clean build test
+all: clean deps build test
 
 # Compilar todos os binários
 build:
+	@echo "Baixando dependências"
 	@echo "Compilando binários..."
 	@mkdir -p $(BUILD_DIR)
 	@go build -o $(BUILD_DIR)/$(BINARY_NAME)-http-example ./cmd/examples/http
@@ -55,12 +56,12 @@ lint:
 # Iniciar ambiente Docker
 docker-up:
 	@echo "Iniciando ambiente Docker..."
-	@docker-compose up -d
+	@docker compose up -d
 
 # Parar ambiente Docker
 docker-down:
 	@echo "Parando ambiente Docker..."
-	@docker-compose down
+	@docker compose down
 
 # Criar arquivo .env a partir do exemplo
 setup-env:
