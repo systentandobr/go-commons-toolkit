@@ -1,4 +1,4 @@
-package supabase
+package main
 
 import (
 	"database/sql"
@@ -42,11 +42,6 @@ func GetClient() (*sql.DB, error) {
 
 		// Verifica se a conexão está ativa
 		dbError = dbInstance.Ping()
-		if dbError != nil {
-			dbInstance.Close()
-			fmt.Printf("Falha ao conectar ao PostgreSQL: %v\n", dbError)
-			return
-		}
 	})
 
 	return dbInstance, dbError

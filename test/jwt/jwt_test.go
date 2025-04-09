@@ -1,4 +1,4 @@
-package test
+package test_jwt
 
 import (
 	"testing"
@@ -10,10 +10,10 @@ import (
 func TestJWTService(t *testing.T) {
 	// Configuração do serviço JWT para teste
 	config := security.JWTConfig{
-		SecretKey:             "test-secret-key",
-		AccessTokenExpiration: 5 * time.Minute,
+		SecretKey:              "test-secret-key",
+		AccessTokenExpiration:  5 * time.Minute,
 		RefreshTokenExpiration: 24 * time.Hour,
-		Issuer:                "test-issuer",
+		Issuer:                 "test-issuer",
 	}
 	service := security.NewJWTService(config)
 

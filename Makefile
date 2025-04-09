@@ -8,7 +8,7 @@ TEST_FLAGS=-v -race -coverprofile=coverage.out
 LINT_FLAGS=--enable=misspell,gosec,govet,staticcheck,unused,gocritic --deadline=5m
 
 # Comando padrão
-all: clean deps build test
+all: docker-down docker-up clean deps build test
 
 # Compilar todos os binários
 build:

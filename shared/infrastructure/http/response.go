@@ -21,16 +21,16 @@ type ErrorInfo struct {
 	Details validation.ValidationErrors `json:"details,omitempty"`
 }
 
-// NewSuccessResponse cria uma nova resposta de sucesso
-func NewSuccessResponse(data interface{}) Response {
+// SuccessResponse cria uma nova resposta de sucesso
+func SuccessResponse(data interface{}) Response {
 	return Response{
 		Success: true,
 		Data:    data,
 	}
 }
 
-// NewErrorResponse cria uma nova resposta de erro
-func NewErrorResponse(code string, message string) Response {
+// ErrorResponse cria uma nova resposta de erro
+func ErrorResponse(code string, message string) Response {
 	return Response{
 		Success: false,
 		Error: &ErrorInfo{
@@ -40,8 +40,8 @@ func NewErrorResponse(code string, message string) Response {
 	}
 }
 
-// NewValidationErrorResponse cria uma nova resposta de erro de validação
-func NewValidationErrorResponse(message string, errors validation.ValidationErrors) Response {
+// ValidationErrorResponse cria uma nova resposta de erro de validação
+func ValidationErrorResponse(message string, errors validation.ValidationErrors) Response {
 	return Response{
 		Success: false,
 		Error: &ErrorInfo{
@@ -61,22 +61,22 @@ func WriteJSON(w http.ResponseWriter, statusCode int, response interface{}) {
 
 // RespondWithSuccess envia uma resposta de sucesso
 func RespondWithSuccess(w http.ResponseWriter, data interface{}) {
-	WriteJSON(w, http.StatusOK, NewSuccessResponse(data))
+	WriteJSON(w, http.StatusOK, SuccessResponse(data))
 }
 
 // RespondWithCreated envia uma resposta de criação bem-sucedida
 func RespondWithCreated(w http.ResponseWriter, data interface{}) {
-	WriteJSON(w, http.StatusCreated, NewSuccessResponse(data))
+	WriteJSON(w, http.StatusCreated, SuccessResponse(data))
 }
 
 // RespondWithError envia uma resposta de erro
 func RespondWithError(w http.ResponseWriter, statusCode int, code string, message string) {
-	WriteJSON(w, statusCode, NewErrorResponse(code, message))
+	WriteJSON(w, statusCode, ErrorResponse(code, message))
 }
 
 // RespondWithValidationError envia uma resposta de erro de validação
 func RespondWithValidationError(w http.ResponseWriter, message string, errors validation.ValidationErrors) {
-	WriteJSON(w, http.StatusBadRequest, NewValidationErrorResponse(message, errors))
+	WriteJSON(w, http.StatusBadRequest, ValidationErrorResponse(message, errors))
 }
 
 // RespondWithBadRequest envia uma resposta de requisição inválida

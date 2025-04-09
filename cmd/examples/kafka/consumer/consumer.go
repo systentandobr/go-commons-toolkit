@@ -1,4 +1,4 @@
-package main
+package kafkaConsumer
 
 import (
 	"context"
@@ -49,7 +49,7 @@ func main() {
 
 	// Processar mensagens
 	fmt.Printf("Consumidor iniciado. Aguardando mensagens do tópico '%s'...\n", topic)
-	
+
 	// Definir o handler de mensagens
 	handler := func(ctx context.Context, message kafka.Message) error {
 		// Desserializar a mensagem

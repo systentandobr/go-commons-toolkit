@@ -100,9 +100,6 @@ func Get() *Config {
 			Timeout:  time.Duration(getIntEnv("TIMEOUT_SECONDS", 30)) * time.Second,
 		}
 
-		validaCarregarEnvFile(nil)
-		// Exibir configurações básicas
-		validarConfiguracao(nil, nil, nil)
 	})
 
 	return instance
@@ -138,7 +135,7 @@ const (
 	StatusMissing = "❌ Não configurado"
 )
 
-func validaCarregarEnvFile(t *testing.T) string {
+func ValidaCarregarEnvFile(t *testing.T) string {
 	// Carregar configurações de arquivo .env se existir
 	envFile := ".env.example"
 	if _, err := os.Stat(envFile); err == nil {
@@ -155,16 +152,16 @@ func validaCarregarEnvFile(t *testing.T) string {
 	return "Arquivo .env carregado com sucesso."
 }
 
-// statusBool retorna emoji conforme status
-func statusBool(enabled bool) string {
+// StatusBool retorna emoji conforme status
+func StatusBool(enabled bool) string {
 	if enabled {
 		return StatusOK
 	}
 	return StatusMissing
 }
 
-// validarConfiguracao verifica se uma string de configuração foi definida
-func validarConfiguracao(valor, descricao string, padrao string) (string, string) {
+// ValidarConfiguracao verifica se uma string de configuração foi definida
+func ValidarConfiguracao(valor, descricao string, padrao string) (string, string) {
 	status := StatusOK
 	valorExibir := valor
 
