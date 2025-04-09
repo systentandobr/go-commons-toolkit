@@ -15,11 +15,32 @@ var (
 	instance *Config
 )
 
-// Config representa as configurações da aplicação baseadas em variáveis de ambiente
-type Config struct {
+// DatabaseConfig representa as configurações do banco de dados
+type DatabaseConfig struct {
 	// MongoDB
 	MongoURI          string
 	MongoDatabaseName string
+
+	// Supabase/PostgreSQL
+	SupabaseURI      string
+	SupabaseDatabase string
+	SupabaseUsername string
+	SupabasePassword string
+}
+
+// Config representa as configurações da aplicação baseadas em variáveis de ambiente
+type Config struct {
+	// App
+	Environment   string
+	APIPort       string
+	EnableSwagger bool
+	EnableCORS    bool
+	EnableJobs    bool
+	EnableMetrics bool
+	EnableTracing bool
+	
+	// Database
+	Database DatabaseConfig
 
 	// Kafka
 	KafkaBootstrapServer  string
@@ -27,16 +48,13 @@ type Config struct {
 	KafkaAutoOffsetReset  string
 	KafkaEnableAutoCommit bool
 
-	// Supabase/PostgreSQL
-	SupabaseURI      string
-	SupabaseDatabase string
-	SupabaseUsername string
-	SupabasePassword string
-
 	// HTTP
 	HTTPPort int
 	Timeout  time.Duration
 }
+
+// AppConfig é um alias para Config para compatibilidade com o formato solicitado
+type AppConfig Config
 
 // LoadEnv carrega as variáveis de ambiente a partir de um arquivo .env
 func LoadEnv(filePath string) error {
@@ -47,21 +65,33 @@ func LoadEnv(filePath string) error {
 func Get() *Config {
 	once.Do(func() {
 		instance = &Config{
-			// MongoDB
-			MongoURI:          getEnv("MONGO_URI", "mongodb://localhost:27017"),
-			MongoDatabaseName: getEnv("MONGO_DATABASE_NAME", "my_database"),
+			// App
+			Environment:   getEnv("APP_ENVIRONMENT", "development"),
+			APIPort:       getEnv("API_PORT", "8080"),
+			EnableSwagger: getBoolEnv("ENABLE_SWAGGER", true),
+			EnableCORS:    getBoolEnv("ENABLE_CORS", true),
+			EnableJobs:    getBoolEnv("ENABLE_JOBS", true),
+			EnableMetrics: getBoolEnv("ENABLE_METRICS", true),
+			EnableTracing: getBoolEnv("ENABLE_TRACING", true),
+
+			// Database
+			Database: DatabaseConfig{
+				// MongoDB
+				MongoURI:          getEnv("MONGO_URI", "mongodb://localhost:27017"),
+				MongoDatabaseName: getEnv("MONGO_DATABASE_NAME", "my_database"),
+
+				// Supabase/PostgreSQL
+				SupabaseURI:      getEnv("SUPABASE_URI", "postgresql://localhost:5432"),
+				SupabaseDatabase: getEnv("SUPABASE_DATABASE", "postgres"),
+				SupabaseUsername: getEnv("SUPABASE_USERNAME", "postgres"),
+				SupabasePassword: getEnv("SUPABASE_PASSWORD", "postgres"),
+			},
 
 			// Kafka
 			KafkaBootstrapServer:  getEnv("KAFKA_BOOTSTRAP_SERVER", "localhost:9092"),
 			KafkaConsumerGroupID:  getEnv("KAFKA_CONSUMER_GROUP_ID", "my-consumer-group"),
 			KafkaAutoOffsetReset:  getEnv("KAFKA_AUTO_OFFSET_RESET", "earliest"),
 			KafkaEnableAutoCommit: getBoolEnv("KAFKA_ENABLE_AUTO_COMMIT", true),
-
-			// Supabase/PostgreSQL
-			SupabaseURI:      getEnv("SUPABASE_URI", "postgresql://localhost:5432"),
-			SupabaseDatabase: getEnv("SUPABASE_DATABASE", "postgres"),
-			SupabaseUsername: getEnv("SUPABASE_USERNAME", "postgres"),
-			SupabasePassword: getEnv("SUPABASE_PASSWORD", "postgres"),
 
 			// HTTP
 			HTTPPort: getIntEnv("HTTP_PORT", 8080),
@@ -112,6 +142,13 @@ func getIntEnv(key string, defaultValue int) int {
 }
 
 // getStringSliceEnv obtém uma variável de ambiente como slice de strings (separadas por vírgula)
+// GetAppConfig retorna a configuração no formato AppConfig
+func GetAppConfig() *AppConfig {
+	config := Get()
+	appConfig := AppConfig(*config)
+	return &appConfig
+}
+
 func getStringSliceEnv(key string, defaultValue []string) []string {
 	valueStr := os.Getenv(key)
 	if valueStr == "" {
