@@ -7,13 +7,13 @@ Este guia mostra como utilizar o Go Commons Toolkit em seus projetos Go.
 Para usar o toolkit em seu projeto, adicione-o como dependência:
 
 ```bash
-go get github.com/systentandobr/go-commons-toolkit
+go get github.com/systentandobr/toolkit/go
 ```
 
 Ou para usar uma versão local durante o desenvolvimento, adicione um replace no seu arquivo `go.mod`:
 
 ```
-replace github.com/systentandobr/go-commons-toolkit => /caminho/absoluto/para/go-commons-toolkit
+replace github.com/systentandobr/toolkit/go => /caminho/absoluto/para/toolkit/go
 ```
 
 ## Exemplos de Uso
@@ -29,7 +29,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/systentandobr/go-commons-toolkit/shared/infrastructure/config"
+	"github.com/systentandobr/toolkit/go/shared/infrastructure/config"
 )
 
 func main() {
@@ -59,8 +59,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/systentandobr/go-commons-toolkit/shared/infrastructure/config"
-	"github.com/systentandobr/go-commons-toolkit/shared/infrastructure/persistence/mongodb"
+	"github.com/systentandobr/toolkit/go/shared/infrastructure/config"
+	"github.com/systentandobr/toolkit/go/shared/infrastructure/persistence/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -119,7 +119,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/systentandobr/go-commons-toolkit/shared/infrastructure/validation"
+	"github.com/systentandobr/toolkit/go/shared/infrastructure/validation"
 )
 
 type Product struct {
@@ -162,7 +162,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/systentandobr/go-commons-toolkit/shared/security"
+	"github.com/systentandobr/toolkit/go/shared/security"
 )
 
 func main() {
@@ -221,7 +221,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/systentandobr/go-commons-toolkit/shared/infrastructure/http"
+	"github.com/systentandobr/toolkit/go/shared/infrastructure/http"
 )
 
 type Post struct {
@@ -285,7 +285,7 @@ func main() {
 Você pode criar novos projetos usando o gerador de projetos:
 
 ```bash
-cd $GOPATH/src/github.com/systentandobr/go-commons-toolkit
+cd $GOPATH/src/github.com/systentandobr/toolkit/go
 go run cmd/examples/project-generator/main.go \
   -name meu-servico \
   -module github.com/meu-usuario/meu-servico \
@@ -337,8 +337,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/systentandobr/go-commons-toolkit/shared/infrastructure/validation"
-	"github.com/systentandobr/go-commons-toolkit/shared/security"
+	"github.com/systentandobr/toolkit/go/shared/infrastructure/validation"
+	"github.com/systentandobr/toolkit/go/shared/security"
 )
 
 type LoginRequest struct {
