@@ -1,0 +1,37 @@
+# Framework
+fastapi>=0.75.0,<1.0.0
+uvicorn>=0.17.6,<1.0.0
+pydantic>=1.9.0,<2.0.0
+python-multipart>=0.0.5
+aiofiles>=0.8.0
+starlette>=0.17.1
+
+# Machine Learning
+tensorflow>=2.8.0
+numpy>=1.22.0
+opencv-python>=4.5.5
+scikit-image>=0.19.2
+pillow>=9.0.1
+
+# Opcionais (comentados por padrão, descomente conforme necessidade)
+# onnxruntime>=1.11.0
+# onnxruntime-gpu>=1.11.0
+# torch>=1.11.0
+# torchvision>=0.12.0
+
+# Processamento de dados
+pandas>=1.4.2
+pyarrow>=7.0.0
+
+# Logging e Monitoramento
+python-json-logger>=2.0.2
+prometheus-client>=0.14.1
+PyYAML>=6.0
+
+# Desenvolvimento e testes
+pytest>=7.1.2
+pytest-asyncio>=0.18.3
+black>=22.3.0
+isort>=5.10.1
+flake8>=4.0.1
+mypy>=0.950

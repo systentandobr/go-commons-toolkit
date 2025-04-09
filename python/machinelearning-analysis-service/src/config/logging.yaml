@@ -1,0 +1,61 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+  
+  json:
+    format: "%(asctime)s %(levelname)s %(name)s %(message)s"
+    class: pythonjsonlogger.jsonlogger.JsonFormatter
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: standard
+    stream: ext://sys.stdout
+  
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: json
+    filename: logs/ml_analysis_service.log
+    maxBytes: 10485760  # 10MB
+    backupCount: 5
+    encoding: utf8
+  
+  error_file:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: json
+    filename: logs/ml_analysis_service_error.log
+    maxBytes: 10485760  # 10MB
+    backupCount: 5
+    encoding: utf8
+
+loggers:
+  "":  # Root logger
+    handlers: [console, file, error_file]
+    level: INFO
+    propagate: true
+  
+  # Framework loggers
+  uvicorn:
+    handlers: [console, file]
+    level: INFO
+    propagate: false
+  
+  # Application loggers
+  src:
+    handlers: [console, file, error_file]
+    level: DEBUG
+    propagate: false
+  
+  # Task-specific loggers
+  task:
+    handlers: [console, file, error_file]
+    level: DEBUG
+    propagate: false

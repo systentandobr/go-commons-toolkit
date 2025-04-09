@@ -109,11 +109,13 @@ O Systentando ONE utiliza uma arquitetura monorepo para facilitar o desenvolvime
 
 ### Estrutura do Monorepo
 
+## Estrutura do Monorepo (frontend)
+
 ```
-/
+│ one-monorepo/               # Aplicação Monorepo frontend Next.js
 ├── apps/                     # Aplicações independentes
 │   ├── web/                  # Aplicação web principal
-│   ├── zen-launcher/         # ZEN Launcher
+│   ├── zen-launcher/         # ZEN Launcher (landingpage) + app (kotin)
 │   ├── meu-nutri/            # Meu Nutri
 │   ├── investimento/         # Momento do Investimento
 │   ├── rodada-negocios/      # Rodada de Negócios
@@ -126,12 +128,22 @@ O Systentando ONE utiliza uma arquitetura monorepo para facilitar o desenvolvime
 │   ├── analytics/            # Ferramentas de análise
 │   ├── api-client/           # Cliente API unificado
 │   └── toolkit/              # Developer toolkit
+│       ├── go/               # Ferramentas em Go
+│       ├── nodejs/           # Ferramentas em Node.js
+│       ├── python/           # Ferramentas em Python
+│       └── rust/             # Ferramentas em Rust
 │
 ├── libs/                     # Bibliotecas específicas de domínio
 │   ├── user-management/      # Gestão de usuários
 │   ├── product-catalog/      # Catálogo de produtos
 │   ├── gamification/         # Sistema de gamificação
 │   └── equity-tokens/        # Sistema de tokens
+│
+├── docs/                     # Documentação
+│   ├── architecture/         # Documentação de arquitetura
+│   ├── business/             # Modelos de negócio
+│   ├── gamification/         # Sistema de gamificação
+│   └── marketing/            # Estratégias de marketing
 │
 ├── tools/                    # Ferramentas de desenvolvimento
 │   ├── generators/           # Geradores de código
@@ -183,7 +195,7 @@ Para gerenciar efetivamente o monorepo, o Systentando utiliza:
 v                        v
 +-----------+-----------+ +--------+----------+
 | Backend Services      | | IA Services       |
-| (NestJS Microservices)| | (FastAPI / Go)    |
+| (GOLang Edge function)| | (FastAPI / Go)    |
 +-----------+-----------+ +--------+----------+
          |                        |
          |                        |

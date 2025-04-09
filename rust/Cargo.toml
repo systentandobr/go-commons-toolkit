@@ -1,0 +1,61 @@
+[package]
+name = "systentando-toolkit"
+version = "0.1.0"
+edition = "2021"
+authors = ["SystentandoBR Team"]
+description = "Toolkit para desenvolvimento de microsserviços em Rust"
+license = "MIT"
+repository = "https://github.com/systentandobr/toolkit"
+
+[dependencies]
+# Servidor web e middleware
+actix-web = "4.3.1"
+actix-cors = "0.6.4"
+actix-service = "2.0.2"
+
+# Logs e telemetria
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter", "json"] }
+tracing-appender = "0.2.2"
+opentelemetry = { version = "0.20.0", features = ["rt-tokio"] }
+opentelemetry-otlp = { version = "0.13.0", features = ["http-proto", "reqwest-client"] }
+tracing-opentelemetry = "0.19.0"
+
+# Serialização/Deserialização
+serde = { version = "1.0.171", features = ["derive"] }
+serde_json = "1.0.103"
+
+# Erros
+thiserror = "1.0.44"
+anyhow = "1.0.72"
+
+# Configuração
+config = "0.13.3"
+dotenv = "0.15.0"
+
+# Utilitários
+tokio = { version = "1.29.1", features = ["full"] }
+chrono = { version = "0.4.26", features = ["serde"] }
+uuid = { version = "1.4.1", features = ["v4", "serde"] }
+futures = "0.3.28"
+
+# Cliente HTTP
+reqwest = { version = "0.11.18", features = ["json"] }
+
+# Cliente de banco de dados
+sqlx = { version = "0.7.1", features = ["runtime-tokio-rustls", "postgres", "macros", "uuid", "chrono", "json"] }
+
+# Validação
+validator = { version = "0.16.1", features = ["derive"] }
+
+# CLI
+clap = { version = "4.3.19", features = ["derive"] }
+
+[dev-dependencies]
+tokio-test = "0.4.2"
+mockall = "0.11.4"
+
+[features]
+default = []
+postgres = ["sqlx/postgres"]
+sqlite = ["sqlx/sqlite"]

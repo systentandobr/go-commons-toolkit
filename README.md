@@ -8,7 +8,11 @@
 
 ## Visão Geral
 
-O Systentandobr Toolkit (complete aqui com uma sugestão de descrição do repositório)
+O Systentandobr Toolkit é um conjunto abrangente de ferramentas, bibliotecas e utilitários que aceleram o desenvolvimento de aplicações no ecossistema Systentando. Projetado com base nos princípios SOLID e arquitetura limpa, o toolkit fornece componentes modulares, reutilizáveis e altamente testáveis para construção de microsserviços eficientes e escaláveis. 
+
+Este repositório contém implementações em diversas linguagens de programação (Go, Node.js, Python, Rust), permitindo que as equipes escolham a tecnologia mais adequada para cada caso de uso, mantendo a consistência e interoperabilidade entre os diversos serviços.
+
+Nosso foco está em fornecer ferramentas que promovam práticas de desenvolvimento sustentável, facilitem a integração entre sistemas heterogêneos e reduzam significativamente o tempo de implementação de novos produtos. O toolkit inclui componentes para monitoramento, observabilidade, segurança, validação, comunicação e persistência de dados.
 
 
 ## Produtos templates do Ecossistema
@@ -50,39 +54,48 @@ Auth,Security,Metrics,MCP,LLM,Machine Learning,Producers,Consumers,Notifications
 ### Marketing e Crescimento
 - [Estratégia de Marketing](./docs/marketing/marketing-strategy.md)
 
-## Estrutura do Monorepo (backend)
+## Estrutura do Toolkit
 
-```(Obs.: sugira aqui uma alteração analisando a estrutura de pastas atual)
-/
-├── apps/                     # Aplicações independentes
-│   ├── web/                  # Aplicação web principal
-│   ├── zen-launcher/         # ZEN Launcher
-│   ├── meu-nutri/            # Meu Nutri
-│   ├── investimento/         # Momento do Investimento
-│   ├── rodada-negocios/      # Rodada de Negócios
-│   └── admin/                # Painel administrativo
-│
-├── packages/                 # Pacotes compartilhados
-│   ├── ui/                   # Componentes de UI
-│   ├── config/               # Configurações compartilhadas
-│   ├── auth/                 # Autenticação compartilhada
-│   ├── analytics/            # Ferramentas de análise
-│   ├── api-client/           # Cliente API unificado
-│   └── toolkit/              # Developer toolkit
-│
-├── libs/                     # Bibliotecas específicas de domínio
-│   ├── user-management/      # Gestão de usuários
-│   ├── product-catalog/      # Catálogo de produtos
-│   ├── gamification/         # Sistema de gamificação
-│   └── equity-tokens/        # Sistema de tokens
-│
-├── docs/                     # Documentação
-│   ├── architecture/         # Documentação de arquitetura
-│   ├── business/             # Modelos de negócio
-│   ├── gamification/         # Sistema de gamificação
-│   └── marketing/            # Estratégias de marketing
+O toolkit está organizado em diretórios por linguagem de programação, cada um contendo ferramentas, bibliotecas e utilitários específicos:
 
 ```
+/
+├── go/                      # Implementações em Go
+│   ├── cmd/                 # Ferramentas de linha de comando
+│   ├── shared/              # Bibliotecas compartilhadas
+│   └── test/                # Testes e exemplos
+│
+├── nodejs/                  # Implementações em Node.js
+│   ├── src/                 # Código fonte
+│   │   ├── config/          # Gerenciamento de configuração
+│   │   ├── utils/           # Utilitários (logging, telemetria, etc)
+│   │   └── tools/           # Ferramentas (gerador de projetos, etc)
+│   └── examples/            # Exemplos de uso
+│
+├── python/                  # Implementações em Python
+│   ├── analise-grafica-agente/  # Agente para análise gráfica
+│   ├── machine-learning-agente/ # Agente para machine learning
+│   └── vendedor-ecommerce-agente/ # Agente para e-commerce
+│
+└── rust/                    # Implementações em Rust
+    ├── src/                 # Código fonte
+    │   ├── config/          # Gerenciamento de configuração
+    │   ├── error/           # Tratamento de erros
+    │   ├── cli/             # Ferramentas de linha de comando
+    │   └── ...               # Outros módulos
+    └── examples/            # Exemplos de uso
+```
+
+Cada implementação inclui funcionalidades comuns como:
+
+- **Configuração**: Carregamento e validação de configurações
+- **Logging**: Implementação consistente de logs estruturados
+- **Telemetria**: Métricas, rastreamento e observabilidade
+- **Segurança**: Autenticação, autorização e criptografia
+- **Comunicação**: HTTP, gRPC, Kafka, WebSockets
+- **Banco de Dados**: Abstrações para diversos mecanismos de persistência
+- **Geradores de Código**: Criação de esqueletos de projetos e componentes
+
 
 ## Princípios do Projeto
 
@@ -109,7 +122,21 @@ Auth,Security,Metrics,MCP,LLM,Machine Learning,Producers,Consumers,Notifications
 git clone https://github.com/systentandobr/toolkit.git
 cd toolkit
 
-cat README.md
+# Instalar ferramentas e bibliotecas Go
+cd go
+make install
+
+# Instalar ferramentas e bibliotecas Node.js
+cd ../nodejs
+npm install
+
+# Instalar ferramentas e bibliotecas Python
+cd ../python
+pip install -e .
+
+# Instalar ferramentas e bibliotecas Rust
+cd ../rust
+cargo build
 ```
 
 ## Contribuindo

@@ -1,0 +1,152 @@
+{
+  "apple": {
+    "calories": 52,
+    "protein": 0.3,
+    "carbs": 14,
+    "fat": 0.2,
+    "fiber": 2.4,
+    "vitamins": ["C", "K"],
+    "minerals": ["Potassium"],
+    "health_tips": [
+      "Baixo teor calórico, bom para dietas",
+      "Rico em fibras e antioxidantes",
+      "Ajuda a controlar o açúcar no sangue"
+    ],
+    "diet_type": ["emagrecer", "saudável"]
+  },
+  "banana": {
+    "calories": 89,
+    "protein": 1.1,
+    "carbs": 22.8,
+    "fat": 0.3,
+    "fiber": 2.6,
+    "vitamins": ["B6", "C"],
+    "minerals": ["Potassium", "Magnesium"],
+    "health_tips": [
+      "Boa fonte de energia para atividades físicas",
+      "Ajuda na recuperação muscular",
+      "Rica em potássio, importante para pressão arterial"
+    ],
+    "diet_type": ["energético", "pré-treino"]
+  },
+  "broccoli": {
+    "calories": 34,
+    "protein": 2.8,
+    "carbs": 6.6,
+    "fat": 0.4,
+    "fiber": 2.6,
+    "vitamins": ["C", "K", "A"],
+    "minerals": ["Potassium", "Iron"],
+    "health_tips": [
+      "Baixo teor calórico, excelente para dietas",
+      "Rico em antioxidantes e compostos anticâncer",
+      "Excelente fonte de vitamina K e C"
+    ],
+    "diet_type": ["emagrecer", "saudável"]
+  },
+  "carrot": {
+    "calories": 41,
+    "protein": 0.9,
+    "carbs": 9.6,
+    "fat": 0.2,
+    "fiber": 2.8,
+    "vitamins": ["A", "K1", "B6"],
+    "minerals": ["Potassium"],
+    "health_tips": [
+      "Excelente fonte de betacaroteno para saúde ocular",
+      "Baixo índice glicêmico, bom para diabéticos",
+      "Rico em antioxidantes"
+    ],
+    "diet_type": ["emagrecer", "saudável"]
+  },
+  "orange": {
+    "calories": 47,
+    "protein": 0.9,
+    "carbs": 11.8,
+    "fat": 0.1,
+    "fiber": 2.4,
+    "vitamins": ["C", "B1", "Folate"],
+    "minerals": ["Potassium", "Calcium"],
+    "health_tips": [
+      "Alta concentração de vitamina C, fortalece o sistema imunológico",
+      "Contém flavonoides que reduzem inflamação",
+      "Baixo valor calórico, bom para dietas"
+    ],
+    "diet_type": ["emagrecer", "saudável"]
+  },
+  "pizza": {
+    "calories": 285,
+    "protein": 12,
+    "carbs": 36,
+    "fat": 10.4,
+    "fiber": 2.5,
+    "vitamins": ["A", "B12"],
+    "minerals": ["Calcium", "Iron"],
+    "health_tips": [
+      "Alta densidade calórica, consumo moderado",
+      "Pode conter alto teor de sódio",
+      "Versões com vegetais são mais nutritivas"
+    ],
+    "diet_type": ["engordar", "ocasional"]
+  },
+  "burger": {
+    "calories": 354,
+    "protein": 20,
+    "carbs": 30,
+    "fat": 17,
+    "fiber": 1.5,
+    "vitamins": ["B12", "B6"],
+    "minerals": ["Iron", "Zinc"],
+    "health_tips": [
+      "Alto teor calórico e gordura saturada",
+      "Boa fonte de proteína, mas consumo ocasional",
+      "Opte por versões com ingredientes mais naturais"
+    ],
+    "diet_type": ["engordar", "ocasional"]
+  },
+  "hot_dog": {
+    "calories": 290,
+    "protein": 10.4,
+    "carbs": 23.5,
+    "fat": 17,
+    "fiber": 0.8,
+    "vitamins": ["B12", "B6"],
+    "minerals": ["Sodium", "Iron"],
+    "health_tips": [
+      "Alto teor de sódio e gorduras processadas",
+      "Consumo ocasional recomendado",
+      "Procure versões com menos conservantes"
+    ],
+    "diet_type": ["engordar", "ocasional"]
+  },
+  "cake": {
+    "calories": 371,
+    "protein": 5.1,
+    "carbs": 47.2,
+    "fat": 18.8,
+    "fiber": 2.1,
+    "vitamins": ["B2", "E"],
+    "minerals": ["Iron", "Magnesium"],
+    "health_tips": [
+      "Alto teor calórico, consumo ocasional",
+      "Rico em açúcares refinados",
+      "Versões com cacau escuro têm mais antioxidantes"
+    ],
+    "diet_type": ["engordar", "ocasional"]
+  },
+  "salad": {
+    "calories": 33,
+    "protein": 1.4,
+    "carbs": 6.3,
+    "fat": 0.4,
+    "fiber": 1.9,
+    "vitamins": ["A", "C", "K"],
+    "minerals": ["Potassium", "Magnesium", "Iron"],
+    "health_tips": [
+      "Baixíssimo valor calórico, ideal para dietas",
+      "Rico em fibras e micronutrientes",
+      "Combinação variada de vegetais aumenta os benefícios"
+    ],
+    "diet_type": ["emagrecer", "saudável"]
+  }
+}
