@@ -25,7 +25,7 @@ func GetClient() (*mongo.Client, error) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		clientOptions := options.Client().ApplyURI(cfg.MongoURI)
+		clientOptions := options.Client().ApplyURI(cfg.Database.MongoURI)
 		clientInstance, clientError = mongo.Connect(ctx, clientOptions)
 		if clientError != nil {
 			return
@@ -45,7 +45,7 @@ func GetDatabase() (*mongo.Database, error) {
 		return nil, err
 	}
 
-	return client.Database(cfg.MongoDatabaseName), nil
+	return client.Database(cfg.Database.MongoDatabaseName), nil
 }
 
 // Collection representa um wrapper para a coleção MongoDB

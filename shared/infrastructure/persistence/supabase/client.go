@@ -23,10 +23,10 @@ func GetClient() (*sql.DB, error) {
 		// Montando a string de conexão PostgreSQL
 		connStr := fmt.Sprintf(
 			"host=%s dbname=%s user=%s password=%s sslmode=disable",
-			getHost(cfg.SupabaseURI),
-			cfg.SupabaseDatabase,
-			cfg.SupabaseUsername,
-			cfg.SupabasePassword,
+			getHost(cfg.Database.SupabaseURI),
+			cfg.Database.SupabaseDatabase,
+			cfg.Database.SupabaseUsername,
+			cfg.Database.SupabasePassword,
 		)
 
 		dbInstance, dbError = sql.Open("postgres", connStr)
