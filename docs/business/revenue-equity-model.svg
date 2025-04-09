@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#121212" rx="10" ry="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial" font-size="24" fill="#ffffff" text-anchor="middle" font-weight="bold">Modelo de Receitas e Equity - Systentando ONE</text>
+  
+  <!-- Main Container -->
+  <rect x="50" y="70" width="700" height="480" fill="#1e1e1e" rx="10" ry="10" stroke="#333333" stroke-width="2"/>
+  
+  <!-- Revenue Sources Section -->
+  <rect x="70" y="90" width="320" height="220" fill="#f39c12" fill-opacity="0.2" rx="8" ry="8" stroke="#f39c12" stroke-width="2"/>
+  <text x="230" y="115" font-family="Arial" font-size="18" fill="#ffffff" text-anchor="middle">Fontes de Receita</text>
+  
+  <!-- Revenue Sources -->
+  <rect x="90" y="130" width="130" height="70" fill="#f39c12" rx="6" ry="6"/>
+  <text x="155" y="165" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Planos Premium</text>
+  <text x="155" y="185" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">R$29-499/mês</text>
+  
+  <rect x="240" y="130" width="130" height="70" fill="#f39c12" rx="6" ry="6"/>
+  <text x="305" y="165" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Marketplace</text>
+  <text x="305" y="185" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">Comissão 5-15%</text>
+  
+  <rect x="90" y="220" width="130" height="70" fill="#f39c12" rx="6" ry="6"/>
+  <text x="155" y="255" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Serviços Enterprise</text>
+  <text x="155" y="275" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">R$20k-200k/projeto</text>
+  
+  <rect x="240" y="220" width="130" height="70" fill="#f39c12" rx="6" ry="6"/>
+  <text x="305" y="255" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Educação</text>
+  <text x="305" y="275" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">Cursos e Eventos</text>
+  
+  <!-- Equity Model Section -->
+  <rect x="410" y="90" width="320" height="220" fill="#9b59b6" fill-opacity="0.2" rx="8" ry="8" stroke="#9b59b6" stroke-width="2"/>
+  <text x="570" y="115" font-family="Arial" font-size="18" fill="#ffffff" text-anchor="middle">Modelo de Equity</text>
+  
+  <!-- Equity Components -->
+  <rect x="430" y="130" width="130" height="70" fill="#9b59b6" rx="6" ry="6"/>
+  <text x="495" y="165" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Tokens de Equity</text>
+  <text x="495" y="185" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">100M SYS Total</text>
+  
+  <rect x="580" y="130" width="130" height="70" fill="#9b59b6" rx="6" ry="6"/>
+  <text x="645" y="165" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Contribuição</text>
+  <text x="645" y="185" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">Baseada em Valor</text>
+  
+  <rect x="430" y="220" width="130" height="70" fill="#9b59b6" rx="6" ry="6"/>
+  <text x="495" y="255" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Vesting</text>
+  <text x="495" y="275" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">2 anos, 6m cliff</text>
+  
+  <rect x="580" y="220" width="130" height="70" fill="#9b59b6" rx="6" ry="6"/>
+  <text x="645" y="255" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="middle">Governança</text>
+  <text x="645" y="275" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle">Poder de Voto</text>
+  
+  <!-- Revenue Distribution Section -->
+  <rect x="70" y="330" width="320" height="200" fill="#00b894" fill-opacity="0.2" rx="8" ry="8" stroke="#00b894" stroke-width="2"/>
+  <text x="230" y="355" font-family="Arial" font-size="18" fill="#ffffff" text-anchor="middle">Distribuição de Receitas</text>
+  
+  <!-- Distribution pie chart -->
+  <circle cx="230" cy="430" r="70" fill="none" stroke="#333333" stroke-width="1"/>
+  
+  <!-- 40% Operations -->
+  <path d="M 230 430 L 230 360 A 70 70 0 0 1 297.32 459.19 L 230 430" fill="#00b894"/>
+  <text x="260" y="400" font-family="Arial" font-size="12" fill="#ffffff">40% Operações</text>
+  
+  <!-- 30% Rewards Pool -->
+  <path d="M 230 430 L 297.32 459.19 A 70 70 0 0 1 186.34 493.4 L 230 430" fill="#3498db"/>
+  <text x="245" y="470" font-family="Arial" font-size="12" fill="#ffffff">30% Recompensas</text>
+  
+  <!-- 20% Growth -->
+  <path d="M 230 430 L 186.34 493.4 A 70 70 0 0 1 162.68 459.19 L 230 430" fill="#f39c12"/>
+  <text x="180" y="470" font-family="Arial" font-size="12" fill="#ffffff">20% Crescimento</text>
+  
+  <!-- 10% Reserve -->
+  <path d="M 230 430 L 162.68 459.19 A 70 70 0 0 1 230 360 L 230 430" fill="#e84393"/>
+  <text x="190" y="400" font-family="Arial" font-size="12" fill="#ffffff">10% Reserva</text>
+  
+  <!-- Value Metrics Section -->
+  <rect x="410" y="330" width="320" height="200" fill="#3498db" fill-opacity="0.2" rx="8" ry="8" stroke="#3498db" stroke-width="2"/>
+  <text x="570" y="355" font-family="Arial" font-size="18" fill="#ffffff" text-anchor="middle">Métricas de Valor</text>
+  
+  <!-- Metrics -->
+  <rect x="430" y="370" width="280" height="40" fill="#1e1e1e" rx="4" ry="4" stroke="#3498db" stroke-width="1"/>
+  <text x="450" y="395" font-family="Arial" font-size="14" fill="#ffffff">MRR:</text>
+  <text x="680" y="395" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="end">R$120k → R$7.5M</text>
+  
+  <rect x="430" y="420" width="280" height="40" fill="#1e1e1e" rx="4" ry="4" stroke="#3498db" stroke-width="1"/>
+  <text x="450" y="445" font-family="Arial" font-size="14" fill="#ffffff">ARPU:</text>
+  <text x="680" y="445" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="end">R$25+</text>
+  
+  <rect x="430" y="470" width="280" height="40" fill="#1e1e1e" rx="4" ry="4" stroke="#3498db" stroke-width="1"/>
+  <text x="450" y="495" font-family="Arial" font-size="14" fill="#ffffff">Valuation Ano 5:</text>
+  <text x="680" y="495" font-family="Arial" font-size="14" fill="#ffffff" text-anchor="end">R$450M+</text>
+  
+  <!-- Connection arrows -->
+  <path d="M 390 200 L 410 200" stroke="#ffffff" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <path d="M 230 310 L 230 330" stroke="#ffffff" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <path d="M 570 310 L 570 330" stroke="#ffffff" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  
+  <!-- Arrowhead marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffffff" />
+    </marker>
+  </defs>
+  
+</svg>
