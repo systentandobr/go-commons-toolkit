@@ -1,10 +1,12 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
 	"sync"
+	"testing"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -38,7 +40,7 @@ type Config struct {
 	EnableJobs    bool
 	EnableMetrics bool
 	EnableTracing bool
-	
+
 	// Database
 	Database DatabaseConfig
 
@@ -97,6 +99,10 @@ func Get() *Config {
 			HTTPPort: getIntEnv("HTTP_PORT", 8080),
 			Timeout:  time.Duration(getIntEnv("TIMEOUT_SECONDS", 30)) * time.Second,
 		}
+
+		validaCarregarEnvFile(nil)
+		// Exibir configurações básicas
+		validarConfiguracao(nil, nil, nil)
 	})
 
 	return instance
@@ -124,6 +130,51 @@ func getBoolEnv(key string, defaultValue bool) bool {
 	}
 
 	return value
+}
+
+// Constantes para indicar status da configuração
+const (
+	StatusOK      = "✅ Configurado"
+	StatusMissing = "❌ Não configurado"
+)
+
+func validaCarregarEnvFile(t *testing.T) string {
+	// Carregar configurações de arquivo .env se existir
+	envFile := ".env.example"
+	if _, err := os.Stat(envFile); err == nil {
+		if err := LoadEnv(envFile); err != nil {
+			const messageError = "Aviso: Não foi possível carregar o arquivo .env: %v\n"
+			t.Fatalf(messageError, err)
+		} else {
+			fmt.Println("Arquivo .env carregado com sucesso.")
+		}
+	} else {
+		const messageError = "Arquivo .env não encontrado, usando variáveis de ambiente do sistema."
+		t.Error(messageError)
+	}
+	return "Arquivo .env carregado com sucesso."
+}
+
+// statusBool retorna emoji conforme status
+func statusBool(enabled bool) string {
+	if enabled {
+		return StatusOK
+	}
+	return StatusMissing
+}
+
+// validarConfiguracao verifica se uma string de configuração foi definida
+func validarConfiguracao(valor, descricao string, padrao string) (string, string) {
+	status := StatusOK
+	valorExibir := valor
+
+	if valor == padrao || valor == "" {
+		status = StatusMissing
+		valorExibir = "(valor padrão)"
+	}
+
+	fmt.Printf("%-25s: %s %s\n", descricao, status, valorExibir)
+	return status, valorExibir
 }
 
 // getIntEnv obtém uma variável de ambiente como inteiro ou retorna o valor padrão
