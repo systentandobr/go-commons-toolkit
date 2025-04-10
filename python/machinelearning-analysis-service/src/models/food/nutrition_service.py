@@ -193,6 +193,149 @@ class FoodNutritionService(ModelContextProtocol):
             },
             'context': self._context.get_metadata()
         }
+    
+    def batch_analyze_foods(self, image_paths: List[str]) -> List[Dict[str, Any]]:
+        """
+        Analisa múltiplas imagens de alimentos em lote.
+        
+        Args:
+            image_paths: Lista de caminhos para imagens de alimentos a serem analisadas
+        
+        Returns:
+            Lista de resultados de análise para cada imagem
+        """
+        results = []
+        
+        for image_path in image_paths:
+            try:
+                # Analisar cada imagem individualmente
+                food_analysis = self.analyze(image_path)
+                
+                # Adicionar caminho da imagem ao resultado
+                food_analysis['image_path'] = image_path
+                
+                # Adicionar nome do alimento como identificador
+                if 'top_prediction' in food_analysis:
+                    food_analysis['food_name'] = food_analysis['top_prediction']['class_name']
+                
+                results.append(food_analysis)
+            except Exception as e:
+                # Em caso de erro, adicionar resultado com erro
+                results.append({
+                    'status': 'error',
+                    'message': f"Erro ao analisar {image_path}: {str(e)}",
+                    'image_path': image_path
+                })
+        
+        return results
+    
+    def generate_nutrition_report(self, batch_results: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Gera um relatório nutricional a partir dos resultados de análise em lote.
+        
+        Args:
+            batch_results: Resultados da análise em lote obtidos por batch_analyze_foods
+        
+        Returns:
+            Relatório nutricional consolidado
+        """
+        # Inicializar estrutura do relatório
+        report = {
+            'food_details': [],
+            'total_nutrition': {
+                'calories': 0,
+                'proteins': 0,
+                'carbohydrates': 0,
+                'fats': 0,
+                'fiber': 0
+            },
+            'recommendations': [],
+            'metadata': {
+                'total_items': len(batch_results),
+                'successful_analyses': 0,
+                'failed_analyses': 0
+            }
+        }
+        
+        # Processar cada resultado
+        for food_result in batch_results:
+            # Verificar se a análise foi bem-sucedida
+            if food_result.get('status') == 'error':
+                report['metadata']['failed_analyses'] += 1
+                continue
+            
+            report['metadata']['successful_analyses'] += 1
+            
+            # Extrair detalhes nutricionais
+            food_detail = {
+                'food_classification': {
+                    'food_class': food_result.get('top_prediction', {}).get('class_name', 'Desconhecido'),
+                    'confidence': food_result.get('top_prediction', {}).get('confidence', 0)
+                },
+                'nutrition': food_result.get('nutrition', {}),
+                'health_impact': food_result.get('health_impact', 'Não avaliado'),
+                'condition': food_result.get('condition', {'status': 'Não verificado'}),
+                'image_path': food_result.get('image_path', '')
+            }
+            
+            # Adicionar aos detalhes
+            report['food_details'].append(food_detail)
+            
+            # Somar ao total nutricional
+            nutrition = food_result.get('nutrition', {})
+            report['total_nutrition']['calories'] += nutrition.get('calories', 0)
+            report['total_nutrition']['proteins'] += nutrition.get('proteins', 0)
+            report['total_nutrition']['carbohydrates'] += nutrition.get('carbohydrates', 0)
+            report['total_nutrition']['fats'] += nutrition.get('fats', 0)
+            report['total_nutrition']['fiber'] += nutrition.get('fiber', 0)
+        
+        # Gerar recomendações baseadas nos totais
+        self._generate_diet_recommendations(report)
+        
+        return report
+    
+    def _generate_diet_recommendations(self, report: Dict[str, Any]) -> None:
+        """
+        Gera recomendações dietéticas baseadas na análise nutricional.
+        
+        Args:
+            report: Relatório nutricional a ser atualizado com recomendações
+        """
+        total = report['total_nutrition']
+        recommendations = []
+        
+        # Verificações básicas de macronutrientes
+        if total['calories'] > 2500:
+            recommendations.append("O consumo calórico está elevado. Considere reduzir a ingestão calórica total.")
+        
+        if total['fats'] > 70:
+            recommendations.append("O consumo de gorduras está acima do recomendado. Priorize gorduras saudáveis e reduza gorduras saturadas.")
+        
+        if total['carbohydrates'] > 300:
+            recommendations.append("O consumo de carboidratos está elevado. Opte por carboidratos complexos e reduza açúcares simples.")
+        
+        if total['proteins'] < 50:
+            recommendations.append("O consumo de proteínas está abaixo do ideal. Considere incluir mais fontes proteicas na dieta.")
+        
+        if total['fiber'] < 25:
+            recommendations.append("O consumo de fibras está abaixo do recomendado. Aumente a ingestão de vegetais, frutas e grãos integrais.")
+        
+        # Verificações baseadas na composição da dieta
+        fruit_count = len([food for food in report['food_details'] 
+                         if 'fruit' in food['food_classification']['food_class'].lower()])
+        
+        vegetable_count = len([food for food in report['food_details'] 
+                             if 'vegetable' in food['food_classification']['food_class'].lower()])
+        
+        if fruit_count + vegetable_count < 2:
+            recommendations.append("Consumo baixo de frutas e vegetais. Recomenda-se pelo menos 5 porções diárias.")
+        
+        # Adicionar recomendações gerais se não houver específicas
+        if not recommendations:
+            recommendations.append("Seu perfil nutricional parece equilibrado. Mantenha a variedade de alimentos e a hidratação adequada.")
+        
+        # Atualizar o relatório
+        report['recommendations'] = recommendations
 
 def create_food_nutrition_service() -> FoodNutritionService:
     """
