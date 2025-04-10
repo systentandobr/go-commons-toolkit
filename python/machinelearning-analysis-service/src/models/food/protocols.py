@@ -1,11 +1,12 @@
 from typing import Protocol, Dict, Any, List
-import numpy as np
-import tensorflow as tf
 from dataclasses import dataclass, field
+import numpy as np
 
 @dataclass
 class NutritionInfo:
-    """Dados nutricionais detalhados de um alimento."""
+    """
+    Classe de dados para informações nutricionais detalhadas.
+    """
     name: str
     calories: float
     proteins: float
@@ -19,7 +20,7 @@ class NutritionInfo:
 class FoodAnalysisProtocol(Protocol):
     """
     Protocolo para análise de alimentos em imagens.
-    Define os métodos essenciais para classificação, 
+    Define métodos essenciais para classificação, 
     análise nutricional e estado do alimento.
     """
     
