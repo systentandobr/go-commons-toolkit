@@ -1,6 +1,7 @@
 from typing import Dict, List, Any, Optional, Type
 from .protocols import ModelProtocol, ExecutionContextProtocol
 from ..models.base import ModelContext
+from ..exporters.exporter_base import ExporterBase
 
 class ModelRegistry:
     """Registro global de modelos disponíveis."""
@@ -105,3 +106,33 @@ class ModelRegistry:
             metadata.update(model.metadata)
         
         return metadata
+
+
+class ExporterRegistry:
+    """Registro global de exportadores disponíveis."""
+    
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(ExporterRegistry, cls).__new__(cls)
+            cls._instance._exporters = {}
+        return cls._instance
+    
+    def register_exporter(self, format_name: str, exporter_class: Type[ExporterBase]) -> None:
+        """Registra um exportador no sistema."""
+        self._exporters[format_name.lower()] = exporter_class
+    
+    def get_exporter(self, format_name: str) -> Optional[ExporterBase]:
+        """Obtém um exportador pelo nome do formato."""
+        exporter_class = self._exporters.get(format_name.lower())
+        if exporter_class:
+            return exporter_class()
+        return None
+    
+    def list_supported_formats(self) -> Dict[str, str]:
+        """Lista formatos de exportação suportados."""
+        return {
+            format_name: exporter_class().mime_type
+            for format_name, exporter_class in self._exporters.items()
+        }

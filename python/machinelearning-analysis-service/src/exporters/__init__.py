@@ -2,11 +2,13 @@ from typing import Dict, Optional, Type
 from .exporter_base import ExporterBase
 from .json_exporter import JsonExporter
 from .csv_exporter import CsvExporter
+from .nutrition_exporter import NutritionExporter
 
 # Registro de exportadores disponíveis
 EXPORTERS: Dict[str, Type[ExporterBase]] = {
     "json": JsonExporter,
     "csv": CsvExporter,
+    "nutrition": NutritionExporter,
 }
 
 def get_exporter(format_name: str) -> Optional[ExporterBase]:

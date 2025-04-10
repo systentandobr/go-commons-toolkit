@@ -2,14 +2,14 @@ import json
 import csv
 import pandas as pd
 from typing import Dict, List, Any
+from .exporter_base import ExporterBase
 
-class NutritionExporter:
+class NutritionExporter(ExporterBase):
     """
     Exportador especializado para resultados de análise nutricional.
     """
     
-    @staticmethod
-    def export_json(data: Dict[str, Any], output_path: str) -> str:
+    def export_json(self, data: Dict[str, Any], output_path: str) -> str:
         """
         Exporta dados nutricionais para JSON.
         
@@ -24,8 +24,7 @@ class NutritionExporter:
             json.dump(data, f, indent=2, ensure_ascii=False)
         return output_path
     
-    @staticmethod
-    def export_csv(data: Dict[str, Any], output_path: str) -> str:
+    def export_csv(self, data: Dict[str, Any], output_path: str) -> str:
         """
         Exporta dados nutricionais para CSV.
         
@@ -82,8 +81,7 @@ class NutritionExporter:
         df.to_csv(output_path, index=False, encoding='utf-8')
         return output_path
     
-    @staticmethod
-    def export_excel(data: Dict[str, Any], output_path: str) -> str:
+    def export_excel(self, data: Dict[str, Any], output_path: str) -> str:
         """
         Exporta dados nutricionais para Excel.
         
@@ -148,12 +146,7 @@ class NutritionExporter:
         
         return output_path
     
-    @staticmethod
-    def export(
-        data: Dict[str, Any], 
-        output_path: str, 
-        format: str = 'json'
-    ) -> str:
+    def export(self, data: Dict[str, Any], output_path: str) -> str:
         """
         Exporta dados nutricionais em diferentes formatos.
         
@@ -165,33 +158,25 @@ class NutritionExporter:
         Returns:
             Caminho do arquivo exportado
         """
-        # Dicionário de métodos de exportação
-        exporters = {
-            'json': NutritionExporter.export_json,
-            'csv': NutritionExporter.export_csv,
-            'excel': NutritionExporter.export_excel
-        }
-        
-        # Verificar formato suportado
-        if format.lower() not in exporters:
-            raise ValueError(f"Formato não suportado: {format}. Formatos suportados: {list(exporters.keys())}")
-        
-        # Executar exportação
-        return exporters[format.lower()](data, output_path)
+        # Determinar o formato baseado na extensão do arquivo de saída
+        if output_path.lower().endswith('.json'):
+            return self.export_json(data, output_path)
+        elif output_path.lower().endswith('.csv'):
+            return self.export_csv(data, output_path)
+        elif output_path.lower().endswith('.xlsx') or output_path.lower().endswith('.xls'):
+            return self.export_excel(data, output_path)
+        else:
+            # Padrão para JSON
+            return self.export_json(data, output_path)
 
-def register_nutrition_exporter():
-    """
-    Registra o exportador de nutrição no sistema de exportadores.
+    @property
+    def format_name(self) -> str:
+        """Retorna o nome do formato de exportação."""
+        return "nutrition"
     
-    Returns:
-        Classe de exportação de nutrição
-    """
-    from ..core.registry import ExporterRegistry
-    
-    exporter_registry = ExporterRegistry()
-    exporter_registry.register_exporter('nutrition', NutritionExporter)
-    
-    return NutritionExporter
+    @property
+    def mime_type(self) -> str:
+        """Retorna o MIME type do formato de exportação."""
+        return "application/json"
 
-# Registro automático ao importar
-register_nutrition_exporter()
+# O registro agora é feito através do dicionário EXPORTERS em __init__.py
